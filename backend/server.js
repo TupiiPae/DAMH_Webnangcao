@@ -7,6 +7,10 @@ import 'dotenv/config'
 import cartRouter from "./routes/cartRoute.js"
 import orderRouter from "./routes/orderRoute.js"
 
+console.log("Stripe Key:", process.env.STRIPE_SECRET_KEY); 
+console.log("PORT:", process.env.PORT);
+
+
 // app config
 const app = express()
 const port = process.env.PORT || 4000;
