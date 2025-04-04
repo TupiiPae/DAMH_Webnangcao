@@ -5,7 +5,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 //config variables
 const currency = "usd";
-const deliveryCharge = 5;
+const deliveryCharge = 3;
 const frontend_URL = 'http://localhost:5173';
 
 // Placing User Order for Frontend using stripe
@@ -72,7 +72,7 @@ const placeOrderCod = async (req, res) => {
         await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
-        res.json({ success: true, message: "Order Placed" });
+        res.json({ success: true, message: "Đã đặt hàng" });
 
     } catch (error) {
         console.log(error);
@@ -106,7 +106,7 @@ const updateStatus = async (req, res) => {
     console.log(req.body);
     try {
         await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
-        res.json({ success: true, message: "Status Updated" })
+        res.json({ success: true, message: "Cập nhật trạng thái thành công" })
     } catch (error) {
         res.json({ success: false, message: "Error" })
     }
@@ -118,14 +118,14 @@ const verifyOrder = async (req, res) => {
     try {
         if (success === "true") {
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
-            res.json({ success: true, message: "Paid" })
+            res.json({ success: true, message: "Đã thanh toán" })
         }
         else {
             await orderModel.findByIdAndDelete(orderId)
-            res.json({ success: false, message: "Not Paid" })
+            res.json({ success: false, message: "Chưa thanh toán" })
         }
     } catch (error) {
-        res.json({ success: false, message: "Not  Verified" })
+        res.json({ success: false, message: "Không thể xác minh" })
     }
 
 }
