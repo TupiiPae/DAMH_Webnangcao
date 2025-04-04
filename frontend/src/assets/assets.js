@@ -88,35 +88,35 @@ export const assets = {
 
 export const menu_list = [
     {
-        menu_name: "Chó",
+        menu_name: "Cho",
         menu_image: menu_1
     },
     {
-        menu_name: "Mèo",
+        menu_name: "Meo",
         menu_image: menu_2
     },
     {
-        menu_name: "Chuột",
+        menu_name: "Chuot",
         menu_image: menu_3
     },
     {
-        menu_name: "Sóc",
+        menu_name: "Soc",
         menu_image: menu_4
     },
     {
-        menu_name: "Thỏ",
+        menu_name: "Tho",
         menu_image: menu_5
     },
     {
-        menu_name: "Nhím",
+        menu_name: "Nhim",
         menu_image: menu_6
     },
     {
-        menu_name: "Rùa",
+        menu_name: "Rua",
         menu_image: menu_7
     },
     {
-        menu_name: "Khác",
+        menu_name: "Khac",
         menu_image: menu_8
     }]
 

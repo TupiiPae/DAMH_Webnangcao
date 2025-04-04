@@ -13,11 +13,11 @@ const PlaceOrder = () => {
         firstName: "",
         lastName: "",
         email: "",
-        street: "",
+        address: "",
+        ward: "",
+        district: "",
         city: "",
-        state: "",
         zipcode: "",
-        country: "",
         phone: ""
     })
 
@@ -89,10 +89,10 @@ const PlaceOrder = () => {
                     <input type="text" name='lastName' onChange={onChangeHandler} value={data.lastName} placeholder='Tên' required />
                 </div>
                 <input type="email" name='email' onChange={onChangeHandler} value={data.email} placeholder='Email' required />
-                <input type="text" name='street' onChange={onChangeHandler} value={data.street} placeholder='Địa Chỉ' required />
+                <input type="text" name='address' onChange={onChangeHandler} value={data.address} placeholder='Địa Chỉ' required />
                 <div className="multi-field">
-                    <input type="text" name='state' onChange={onChangeHandler} value={data.state} placeholder='Phường' required />
-                    <input type="text" name='country' onChange={onChangeHandler} value={data.country} placeholder='Quận' required />
+                    <input type="text" name='ward' onChange={onChangeHandler} value={data.ward} placeholder='Phường' required />
+                    <input type="text" name='district' onChange={onChangeHandler} value={data.district} placeholder='Quận' required />
                 </div>
                 <div className="multi-field">
                     <input type="text" name='city' onChange={onChangeHandler} value={data.city} placeholder='Thành Phố' required />

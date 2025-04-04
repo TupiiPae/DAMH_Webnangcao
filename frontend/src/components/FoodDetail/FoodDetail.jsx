@@ -32,7 +32,7 @@ const FoodDetail = () => {
                 <h1>{foodItem.name}</h1>
                 <p className="food-detail-desc">{foodItem.description}</p>
                 <p className="food-detail-price">
-                    <span className="discounted-price">{currency}{foodItem.price}</span>
+                    <span className="discounted-price">{foodItem.price}{currency}</span>
                 </p>
                 <div className="food-detail-actions">
                     {!cartItems[id] ? (
