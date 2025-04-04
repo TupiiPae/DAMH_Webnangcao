@@ -6,7 +6,7 @@
 }
 
 .navbar .logo {
-    width: 150px;
+    width: 120px;
 }
 
 .navbar-menu {
@@ -66,6 +66,7 @@ position: relative;
     display: none;
     right: 0;
     z-index: 1;
+    white-space: nowrap;
 }
 .navbar-profile-dropdown li{
     display: flex;

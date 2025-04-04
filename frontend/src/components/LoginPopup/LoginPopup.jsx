@@ -58,11 +58,11 @@ const LoginPopup = ({ setShowLogin }) => {
                 <button>{currState === "Login" ? "Login" : "Create account"}</button>
                 <div className="login-popup-condition">
                     <input type="checkbox" name="" id="" required/>
-                    <p>By continuing, i agree to the terms of use & privacy policy.</p>
+                    <p>Tôi đồng ý với các điều khoản sử dụng và chính sách bảo mật.</p>
                 </div>
                 {currState === "Login"
-                    ? <p>Create a new account? <span onClick={() => setCurrState('Sign Up')}>Click here</span></p>
-                    : <p>Already have an account? <span onClick={() => setCurrState('Login')}>Login here</span></p>
+                    ? <p>Tạo một tài khoản mới? <span onClick={() => setCurrState('Sign Up')}>Đăng ký ở đây</span></p>
+                    : <p>Đã có tài khoản? <span onClick={() => setCurrState('Login')}>Đăng nhập ở đây</span></p>
                 }
             </form>
         </div>

@@ -10,7 +10,7 @@ const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
     const currency = "đ";
-    const deliveryCharge = 5;
+    const deliveryCharge = 30000.0.toLocaleString('vi-VN');
 
     const addToCart = async (itemId) => {
         if (!cartItems[itemId]) {

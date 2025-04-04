@@ -12,7 +12,7 @@ const Cart = () => {
     <div className='cart'>
       <div className="cart-items">
         <div className="cart-items-title">
-          <p>Items</p> <p>Title</p> <p>Price</p> <p>Quantity</p> <p>Total</p> <p>Remove</p>
+          <p>Hình ảnh</p> <p>Thú cưng</p> <p>Giá</p> <p>Số lượng</p> <p>Tổng</p> <p>Xóa</p>
         </div>
         <br />
         <hr />
@@ -34,22 +34,22 @@ const Cart = () => {
       </div>
       <div className="cart-bottom">
         <div className="cart-total">
-          <h2>Cart Totals</h2>
+          <h2>Thanh toán</h2>
           <div>
-            <div className="cart-total-details"><p>Subtotal</p><p>{getTotalCartAmount()}{currency}</p></div>
+            <div className="cart-total-details"><p>Tổng giá trị</p><p>{getTotalCartAmount()}{currency}</p></div>
             <hr />
-            <div className="cart-total-details"><p>Delivery Fee</p><p>{getTotalCartAmount()===0?0:deliveryCharge}{currency}</p></div>
+            <div className="cart-total-details"><p>Phí vận chuyển</p><p>{getTotalCartAmount()===0?0:deliveryCharge}{currency}</p></div>
             <hr />
-            <div className="cart-total-details"><b>Total</b><b>{getTotalCartAmount()===0?0:getTotalCartAmount()+deliveryCharge}{currency}</b></div>
+            <div className="cart-total-details"><b>Tổng đơn hàng</b><b>{getTotalCartAmount()===0?0:getTotalCartAmount()+deliveryCharge}{currency}</b></div>
           </div>
-          <button onClick={()=>navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <button onClick={()=>navigate('/order')}>TIẾN HÀNH THANH TOÁN</button>
         </div>
         <div className="cart-promocode">
           <div>
-            <p>If you have a promo code, Enter it here</p>
+            <p>Nếu bạn có mã khuyến mại, hãy nhập vào đây</p>
             <div className='cart-promocode-input'>
-              <input type="text" placeholder='promo code'/>
-              <button>Submit</button>
+              <input type="text" placeholder='khuyến mãi'/>
+              <button>Nhập</button>
             </div>
           </div>
         </div>

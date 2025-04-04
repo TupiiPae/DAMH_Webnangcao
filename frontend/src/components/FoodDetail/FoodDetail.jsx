@@ -15,7 +15,7 @@ const FoodDetail = () => {
     const foodItem = food_list.find(item => item._id === id);
 
     if (!foodItem) {
-        return <p>Product not found!</p>;
+        return <p>Không tìm thấy sản phẩm!</p>;
     }
 
     // Hàm ngăn chặn sự kiện lan truyền (nếu cần trong tương lai)
