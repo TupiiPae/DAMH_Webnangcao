@@ -1,43 +1,75 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import './FoodItem.css';
 import { assets } from '../../assets/assets';
 import { StoreContext } from '../../Context/StoreContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const FoodItem = ({ image, name, price, desc, id }) => {
+const FoodItem = ({ image, name, price, desc, id, gender, quantity }) => {
     const navigate = useNavigate();
-    const [itemCount, setItemCount] = useState(0);
     const { cartItems, addToCart, removeFromCart, url, currency } = useContext(StoreContext);
 
-    // Hàm ngăn chặn sự kiện lan truyền khi bấm vào nút thêm số lượng
     const handleStopPropagation = (e) => {
-        e.stopPropagation(); // Ngăn sự kiện click lan truyền lên div cha
+        e.stopPropagation();
     };
 
-    // Hàm xử lý chuyển hướng khi bấm vào hình ảnh
+    const handleAddToCart = (e) => {
+        handleStopPropagation(e);
+        if (cartItems[id] >= quantity) {
+            toast.error("Đã đạt số lượng tối đa trong kho!");
+            return;
+        }
+        addToCart(id);
+    };
+
     const handleImageClick = (e) => {
+        e.stopPropagation(); // Ngăn sự kiện lan truyền lên div cha
         navigate(`/food/${id}`); // Chuyển hướng đến trang chi tiết
     };
 
     return (
         <div className='food-item' onClick={() => navigate(`/food/${id}`)}>
             <div className='food-item-img-container' onClick={handleStopPropagation}>
-                <img className='food-item-image' src={url + "/images/" + image} alt="" onClick={handleImageClick} style={{ cursor: 'pointer' }} />
+                <img
+                    className='food-item-image'
+                    src={url + "/images/" + image}
+                    alt={name}
+                    style={{ cursor: 'pointer' }}
+                    onClick={handleImageClick} // Thêm sự kiện click vào hình ảnh
+                />
                 {!cartItems[id] ? (
-                    <img className='add' onClick={(e) => { handleStopPropagation(e); addToCart(id); }} src={assets.add_icon_white} alt="" /> ) : (
+                    <img
+                        className='add'
+                        onClick={handleAddToCart}
+                        src={assets.add_icon_white}
+                        alt="Add to cart"
+                    />
+                ) : (
                     <div className="food-item-counter">
-                        <img src={assets.remove_icon_red} onClick={(e) => { handleStopPropagation(e); removeFromCart(id); }} alt=""/>
+                        <img
+                            src={assets.remove_icon_red}
+                            onClick={(e) => { handleStopPropagation(e); removeFromCart(id); }}
+                            alt="Remove from cart"
+                        />
                         <p>{cartItems[id]}</p>
-                        <img src={assets.add_icon_green} onClick={(e) => { handleStopPropagation(e); addToCart(id); }} alt="" />
+                        <img
+                            src={assets.add_icon_green}
+                            onClick={handleAddToCart}
+                            alt="Add more"
+                        />
                     </div>
                 )}
             </div>
             <div className="food-item-info">
                 <div className="food-item-name-rating">
-                    <p>{name}</p> <img src={assets.rating_starts} alt="" />
+                    <p>{name}</p>
+                    <img src={assets.rating_starts} alt="Rating" />
                 </div>
-                <p className="food-item-desc">{desc}</p>
-                <p className="food-item-price">{price}{currency}</p>
+                <p className="food-item-gender">Giới tính: {gender}</p>
+                <div className="food-item-footer">
+                    <p className="food-item-price">{price}{currency}</p>
+                    <p className="food-item-quantity">Số lượng: {quantity}</p>
+                </div>
             </div>
         </div>
     );

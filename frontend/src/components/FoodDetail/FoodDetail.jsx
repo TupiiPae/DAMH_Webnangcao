@@ -2,7 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './FoodDetail.css';
 import { StoreContext } from '../../Context/StoreContext';
-import { assets } from '../../assets/assets'; // Import assets để sử dụng hình ảnh
+import { assets } from '../../assets/assets';
+import { toast } from 'react-toastify';
+import { FaClock, FaVenusMars, FaBox } from 'react-icons/fa'; // Import icon từ react-icons
 
 const FoodDetail = () => {
     const { id } = useParams();
@@ -18,9 +20,16 @@ const FoodDetail = () => {
         return <p>Không tìm thấy sản phẩm!</p>;
     }
 
-    // Hàm ngăn chặn sự kiện lan truyền (nếu cần trong tương lai)
     const handleStopPropagation = (e) => {
         e.stopPropagation();
+    };
+
+    const handleAddToCart = () => {
+        if (cartItems[id] >= foodItem.quantity) {
+            toast.error("Đã đạt số lượng tối đa trong kho!");
+            return;
+        }
+        addToCart(id);
     };
 
     return (
@@ -30,15 +39,29 @@ const FoodDetail = () => {
             </div>
             <div className="food-detail-info">
                 <h1>{foodItem.name}</h1>
-                <p className="food-detail-desc">{foodItem.description}</p>
-                <p className="food-detail-price">
-                    <span className="discounted-price">{foodItem.price}{currency}</span>
-                </p>
+                <p className="food-detail-price">{foodItem.price}{currency}</p>
+                <div className="food-detail-desc-box">
+                    <p className="food-detail-desc">{foodItem.description}</p>
+                </div>
+                <div className="food-detail-extra">
+                    <div className="food-detail-box food-detail-age">
+                        <FaClock className="detail-icon" />
+                        <span>Tuổi: {foodItem.age} tháng</span>
+                    </div>
+                    <div className="food-detail-box food-detail-gender">
+                        <FaVenusMars className="detail-icon" />
+                        <span>Giới tính: {foodItem.gender}</span>
+                    </div>
+                    <div className="food-detail-box food-detail-quantity">
+                        <FaBox className="detail-icon" />
+                        <span>Số lượng: {foodItem.quantity}</span>
+                    </div>
+                </div>
                 <div className="food-detail-actions">
                     {!cartItems[id] ? (
                         <img
                             className="add-to-cart-btn"
-                            onClick={() => addToCart(id)}
+                            onClick={handleAddToCart}
                             src={assets.add_icon_white}
                             alt="Add to cart"
                         />
@@ -52,7 +75,7 @@ const FoodDetail = () => {
                             <span>{cartItems[id]}</span>
                             <img
                                 src={assets.add_icon_green}
-                                onClick={() => addToCart(id)}
+                                onClick={handleAddToCart}
                                 alt="Add more"
                             />
                         </div>

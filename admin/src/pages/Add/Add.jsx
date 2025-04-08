@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
-import './Add.css'
+import React, { useState } from 'react';
+import './Add.css';
 import { assets, url } from '../../assets/assets';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Add = () => {
-
-
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: "",
         description: "",
         price: "",
-        category: "Chó"
+        category: "Chó",
+        age: "",
+        gender: "Đực",
+        quantity: ""
     });
 
     const onSubmitHandler = async (event) => {
@@ -28,28 +29,34 @@ const Add = () => {
         formData.append("description", data.description);
         formData.append("price", Number(data.price));
         formData.append("category", data.category);
+        formData.append("age", data.age);
+        formData.append("gender", data.gender);
+        formData.append("quantity", Number(data.quantity));
         formData.append("image", image);
+
         const response = await axios.post(`${url}/api/food/add`, formData);
         if (response.data.success) {
-            toast.success(response.data.message)
+            toast.success(response.data.message);
             setData({
                 name: "",
                 description: "",
                 price: "",
-                category: data.category
-            })
+                category: "Chó",
+                age: "",
+                gender: "Đực",
+                quantity: ""
+            });
             setImage(false);
+        } else {
+            toast.error(response.data.message);
         }
-        else {
-            toast.error(response.data.message)
-        }
-    }
+    };
 
     const onChangeHandler = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setData(data => ({ ...data, [name]: value }))
-    }
+        setData(data => ({ ...data, [name]: value }));
+    };
 
     return (
         <div className='add'>
@@ -67,12 +74,25 @@ const Add = () => {
                 </div>
                 <div className='add-product-description flex-col'>
                     <p>Mô tả</p>
-                    <textarea name='description' onChange={onChangeHandler} value={data.description} type="text" rows={6} placeholder='Nhập mô tả' required />
+                    <textarea name='description' onChange={onChangeHandler} value={data.description} rows={6} placeholder='Nhập mô tả' required />
+                </div>
+                <div className='add-extra-info'>
+                    <div className='add-age flex-col'>
+                        <p>Tuổi (tháng)</p>
+                        <input type="number" name='age' onChange={onChangeHandler} value={data.age} placeholder='Ví dụ: 6' required />
+                    </div>
+                    <div className='add-gender flex-col'>
+                        <p>Giới tính</p>
+                        <select name='gender' onChange={onChangeHandler} value={data.gender}>
+                            <option value="Đực">Đực</option>
+                            <option value="Cái">Cái</option>
+                        </select>
+                    </div>
                 </div>
                 <div className='add-category-price'>
                     <div className='add-category flex-col'>
                         <p>Danh mục</p>
-                        <select name='category' onChange={onChangeHandler} >
+                        <select name='category' onChange={onChangeHandler} value={data.category}>
                             <option value="Chó">Chó</option>
                             <option value="Mèo">Mèo</option>
                             <option value="Chuột">Chuột</option>
@@ -85,13 +105,17 @@ const Add = () => {
                     </div>
                     <div className='add-price flex-col'>
                         <p>Giá</p>
-                        <input type="Number" name='price' onChange={onChangeHandler} value={data.price} placeholder='10' />
+                        <input type="number" name='price' onChange={onChangeHandler} value={data.price} placeholder='10' required />
+                    </div>
+                    <div className='add-quantity flex-col'>
+                        <p>Số lượng</p>
+                        <input type="number" name='quantity' onChange={onChangeHandler} value={data.quantity} placeholder='1' required />
                     </div>
                 </div>
-                <button type='submit' className='add-btn' >Thêm</button>
+                <button type='submit' className='add-btn'>Thêm</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default Add
+export default Add;

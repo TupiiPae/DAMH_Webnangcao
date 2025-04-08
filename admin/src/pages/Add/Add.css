@@ -1,35 +1,141 @@
-.add{
+.add {
     width: 70%;
-    margin-left: max(5vw,25px);
+    margin-left: max(5vw, 25px);
     margin-top: 50px;
     color: #6D6D6D;
     font-size: 16px;
+    font-family: 'Arial', sans-serif; /* Thêm font chữ cho giao diện mượt mà */
 }
-.add form{
-   gap: 20px;
-}
-.add-img-upload img{
-    width: 120px;
-}
-.add-product-name, .add-product-description{
-    width: max(40%,280px);
-}
-.add-product-name input ,.add-product-description textarea{
-    padding: 10px 10px;
-}
-.add-category-price{
+
+.add form {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    gap: 25px; /* Tăng gap để các phần tử thoáng hơn */
 }
-.add-category-price select,.add-category-price input{
-    max-width: 120px;
-    padding: 10px;
+
+.add-img-upload {
+    text-align: center;
 }
-.add-btn{
+
+.add-img-upload img {
+    width: 120px;
+    height: 120px; /* Thêm chiều cao để ảnh vuông vắn */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 8px; /* Bo góc ảnh */
+    border: 2px dashed #ccc; /* Viền nét đứt cho khu vực upload */
+    transition: border 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.add-img-upload img:hover {
+    border: 2px dashed #6D6D6D; /* Đổi màu viền khi hover */
+}
+
+.add-product-name,
+.add-product-description,
+.add-extra-info {
+    width: max(40%, 280px);
+}
+
+.add-product-name input,
+.add-product-description textarea,
+.add-extra-info input,
+.add-extra-info select {
+    padding: 12px; /* Tăng padding cho dễ nhập liệu */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    border-radius: 6px; /* Bo góc nhẹ */
+    font-size: 14px;
+    width: 100%; /* Đảm bảo input/select chiếm toàn bộ chiều rộng */
+    box-sizing: border-box; /* Đảm bảo padding không làm vượt kích thước */
+    transition: border-color 0.3s ease; /* Hiệu ứng khi focus */
+}
+
+.add-product-name input:focus,
+.add-product-description textarea:focus,
+.add-extra-info input:focus,
+.add-extra-info select:focus {
+    border-color: #6D6D6D; /* Đổi màu viền khi focus */
+    outline: none; /* Bỏ outline mặc định */
+}
+
+.add-product-description textarea {
+    resize: vertical; /* Chỉ cho phép kéo dãn theo chiều dọc */
+    min-height: 100px; /* Chiều cao tối thiểu cho textarea */
+}
+
+.add-extra-info {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các trường tuổi và giới tính */
+}
+
+.add-extra-info .flex-col {
+    flex: 1; /* Các trường trong extra-info chia đều không gian */
+}
+
+.add-category-price {
+    display: flex;
+    gap: 20px; /* Giảm gap để các trường sát nhau hơn */
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu màn hình nhỏ */
+}
+
+.add-category-price .flex-col {
+    flex: 1; /* Các trường trong category-price chia đều không gian */
+    min-width: 100px; /* Đảm bảo không bị quá nhỏ trên màn hình hẹp */
+}
+
+.add-category-price select,
+.add-category-price input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.add-category-price select:focus,
+.add-category-price input:focus {
+    border-color: #6D6D6D;
+    outline: none;
+}
+
+.add-btn {
     max-width: 120px;
     border: none;
-    padding: 10px;
-    background-color: black;
+    padding: 12px 20px; /* Tăng padding cho nút rộng rãi hơn */
+    background-color: #333; /* Đổi sang màu xám đậm thay vì đen tuyền */
     color: white;
+    font-size: 16px;
+    font-weight: bold; /* Chữ đậm hơn */
+    border-radius: 6px; /* Bo góc nút */
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+}
+
+.add-btn:hover {
+    background-color: #555; /* Sáng hơn khi hover */
+    transform: translateY(-2px); /* Nâng nhẹ nút khi hover */
+}
+
+.add-btn:active {
+    transform: translateY(0); /* Trả về vị trí ban đầu khi nhấn */
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .add {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .add-extra-info,
+    .add-category-price {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .add-product-name,
+    .add-product-description {
+        width: 100%;
+    }
 }
