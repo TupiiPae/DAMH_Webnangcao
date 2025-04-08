@@ -98,6 +98,47 @@
     border-radius: 4px;
 }
 
+.cart-quantity-control {
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background-color: transparent; /* Bỏ nền */
+    font-size: 14px;
+}
+
+/* Số lượng hiển thị */
+.quantity-display {
+    min-width: 24px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border: none; /* Bỏ viền */
+    background: transparent; /* Bỏ nền */
+    padding: 0; /* Bỏ padding dư */
+}
+
+/* Styling cho button */
+.cart-quantity-control button {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Hover effect */
+.cart-quantity-control button:hover {
+    color: #000;
+}
+
+
 @media(max-width:750px) {
     .cart-bottom {
         flex-direction: column-reverse;

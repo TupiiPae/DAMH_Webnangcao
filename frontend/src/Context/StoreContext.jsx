@@ -31,6 +31,13 @@ const StoreContextProvider = (props) => {
         }
     }
 
+    const deleteFromCart = async (itemId) => {
+        setCartItems((prev) => ({ ...prev, [itemId]: 0 }))
+        if (token) {
+            await axios.post(url + "/api/cart/delete", { itemId }, { headers: { token } });
+        }
+    }
+    
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
@@ -81,7 +88,8 @@ const StoreContextProvider = (props) => {
         loadCartData,
         setCartItems,
         currency,
-        deliveryCharge
+        deliveryCharge,
+        deleteFromCart
     };
 
     return (

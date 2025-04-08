@@ -100,7 +100,7 @@ export const menu_list = [
         menu_image: menu_3
     },
     {
-        menu_name: "Sóc",
+        menu_name: "Bọ Ú",
         menu_image: menu_4
     },
     {
@@ -108,11 +108,11 @@ export const menu_list = [
         menu_image: menu_5
     },
     {
-        menu_name: "Nhím",
+        menu_name: "Sóc",
         menu_image: menu_6
     },
     {
-        menu_name: "Rùa",
+        menu_name: "Nhím",
         menu_image: menu_7
     },
     {

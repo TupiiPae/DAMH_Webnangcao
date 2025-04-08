@@ -76,10 +76,10 @@ const Add = () => {
                             <option value="Chó">Chó</option>
                             <option value="Mèo">Mèo</option>
                             <option value="Chuột">Chuột</option>
-                            <option value="Sóc">Sóc</option>
+                            <option value="Bọ Ú">Bọ Ú</option>
                             <option value="Thỏ">Thỏ</option>
+                            <option value="Sóc">Sóc</option>
                             <option value="Nhím">Nhím</option>
-                            <option value="Rùa">Rùa</option>
                             <option value="Khác">Khác</option>
                         </select>
                     </div>
