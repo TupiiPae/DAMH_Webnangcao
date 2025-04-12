@@ -79,7 +79,7 @@ const Add = () => {
                 <div className='add-extra-info'>
                     <div className='add-age flex-col'>
                         <p>Tuổi (tháng)</p>
-                        <input type="number" name='age' onChange={onChangeHandler} value={data.age} placeholder='Ví dụ: 6' required />
+                        <input type="number" name='age' min="0" onChange={onChangeHandler} value={data.age} placeholder='Ví dụ: 6' required />
                     </div>
                     <div className='add-gender flex-col'>
                         <p>Giới tính</p>
@@ -105,11 +105,11 @@ const Add = () => {
                     </div>
                     <div className='add-price flex-col'>
                         <p>Giá</p>
-                        <input type="number" name='price' onChange={onChangeHandler} value={data.price} placeholder='10' required />
+                        <input type="number" name='price' min="0" onChange={onChangeHandler} value={data.price} placeholder='10' required />
                     </div>
                     <div className='add-quantity flex-col'>
                         <p>Số lượng</p>
-                        <input type="number" name='quantity' onChange={onChangeHandler} value={data.quantity} placeholder='1' required />
+                        <input type="number" name='quantity' min="0" onChange={onChangeHandler} value={data.quantity} placeholder='1' required />
                     </div>
                 </div>
                 <button type='submit' className='add-btn'>Thêm</button>

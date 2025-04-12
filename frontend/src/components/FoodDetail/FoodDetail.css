@@ -1,16 +1,24 @@
 .food-detail {
     display: flex;
     gap: 40px;
-    padding: 50px;
+    padding: 30px;
     max-width: 1200px;
     margin: 0 auto;
     font-family: 'Arial', sans-serif;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
+}
+
+.food-detail-image {
+    width: 100%;
+    max-width: 500px;
+    height: 500px; /* Chiều cao cố định cho container ảnh */
+    overflow: hidden; /* Ẩn phần vượt ra nếu có */
+    border-radius: 10px;
 }
 
 .food-detail-image img {
     width: 100%;
-    max-width: 500px;
+    height: 100%;
     border-radius: 10px;
     object-fit: cover;
 }
