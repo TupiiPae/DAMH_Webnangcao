@@ -46,7 +46,7 @@ const registerUser = async (req,res) => {
         if(!validator.isEmail(email)){
             return res.json({success:false,message: "Vui lòng nhập email hợp lệ"})
         }
-        if(password.length<5){
+        if(password.length<6){
             return res.json({success:false,message: "Vui lòng nhập mật khẩu ít nhất 6 ký tự"})
         }
 
