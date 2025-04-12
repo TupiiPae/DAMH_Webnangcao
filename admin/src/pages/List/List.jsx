@@ -6,28 +6,30 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 
-// Gắn Modal vào app element (cần thiết cho react-modal)
 Modal.setAppElement('#root');
 
 const List = () => {
     const [list, setList] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false); // State để quản lý trạng thái popup
-    const [foodIdToDelete, setFoodIdToDelete] = useState(null); // Lưu ID của sản phẩm cần xóa
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [foodIdToDelete, setFoodIdToDelete] = useState(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
     const fetchList = async () => {
         try {
             setLoading(true);
             const response = await axios.get(`${url}/api/food/list`);
-            console.log("Fetch list response:", response.data);
             if (response.data.success) {
                 setList(response.data.data);
+                setFilteredList(response.data.data);
             } else {
                 toast.error(response.data.message || "Lỗi khi tải danh sách thú cưng");
             }
         } catch (error) {
-            console.error("Error fetching list:", error.message);
             toast.error(error.message || "Lỗi khi tải danh sách thú cưng");
         } finally {
             setLoading(false);
@@ -35,13 +37,13 @@ const List = () => {
     };
 
     const openDeleteModal = (foodId) => {
-        setFoodIdToDelete(foodId); // Lưu ID của sản phẩm cần xóa
-        setIsModalOpen(true); // Mở popup
+        setFoodIdToDelete(foodId);
+        setIsModalOpen(true);
     };
 
     const closeDeleteModal = () => {
-        setIsModalOpen(false); // Đóng popup
-        setFoodIdToDelete(null); // Xóa ID
+        setIsModalOpen(false);
+        setFoodIdToDelete(null);
     };
 
     const confirmDelete = async () => {
@@ -51,15 +53,14 @@ const List = () => {
             const response = await axios.post(`${url}/api/food/remove`, { id: foodIdToDelete });
             if (response.data.success) {
                 toast.success(response.data.message);
-                await fetchList(); // Cập nhật danh sách sau khi xóa
+                await fetchList();
             } else {
                 toast.error(response.data.message || "Lỗi khi xóa thú cưng");
             }
         } catch (error) {
-            console.error("Error removing food:", error.message);
             toast.error(error.message || "Lỗi khi xóa thú cưng");
         } finally {
-            closeDeleteModal(); // Đóng popup sau khi xử lý
+            closeDeleteModal();
         }
     };
 
@@ -68,9 +69,61 @@ const List = () => {
             toast.error("ID sản phẩm không hợp lệ");
             return;
         }
-        console.log("Navigating to edit with ID:", foodId);
         navigate(`/edit-food/${foodId}`);
     };
+
+    const toggleFilter = () => {
+        setIsFilterOpen(!isFilterOpen);
+    };
+
+    const handleCategoryFilter = (category) => {
+        setSelectedCategory(category);
+        let filtered = list;
+        
+        if (category) {
+            filtered = list.filter(item => item.category === category);
+        }
+        
+        if (searchTerm) {
+            filtered = filtered.filter(item => 
+                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+        
+        setFilteredList(filtered);
+        setIsFilterOpen(false);
+    };
+
+    const handleSearch = (e) => {
+        if (e.key === 'Enter') {
+            let filtered = list;
+            
+            if (searchTerm) {
+                filtered = list.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+            
+            if (selectedCategory) {
+                filtered = filtered.filter(item => item.category === selectedCategory);
+            }
+            
+            setFilteredList(filtered);
+        }
+    };
+
+    const clearSearch = () => {
+        setSearchTerm('');
+        let filtered = list;
+        
+        if (selectedCategory) {
+            filtered = list.filter(item => item.category === selectedCategory);
+        }
+        
+        setFilteredList(filtered);
+    };
+
+    const categories = [...new Set(list.map(item => item.category))];
 
     useEffect(() => {
         fetchList();
@@ -80,37 +133,68 @@ const List = () => {
         return <div className='list add flex-col'>Đang tải danh sách thú cưng...</div>;
     }
 
-    if (list.length === 0) {
-        return (
-            <div className='list add flex-col'>
-                <p>Danh sách thú cưng</p>
-                <p>Không có thú cưng nào trong danh sách.</p>
-            </div>
-        );
-    }
-
     return (
         <div className='list add flex-col'>
             <p>Danh sách thú cưng</p>
+            <div className='list-controls'>
+                <div className='filter-container'>
+                    <button onClick={toggleFilter} className='filter-btn'>
+                        Lọc danh mục {selectedCategory && `(${selectedCategory})`}
+                    </button>
+                    {isFilterOpen && (
+                        <div className='filter-dropdown'>
+                            <button onClick={() => handleCategoryFilter('')}>Tất cả</button>
+                            {categories.map((category, index) => (
+                                <button 
+                                    key={index} 
+                                    onClick={() => handleCategoryFilter(category)}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                
+                <div className='search-container'>
+                    <input
+                        type='text'
+                        placeholder='Tìm kiếm thú cưng...'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyPress={handleSearch}
+                        className='search-input'
+                    />
+                    {searchTerm && (
+                        <button onClick={clearSearch} className='clear-btn'>
+                            ✕
+                        </button>
+                    )}
+                </div>
+            </div>
             <div className='list-table'>
                 <div className="list-table-format title">
                     <b>Hình ảnh</b>
                     <b>Thú cưng</b>
                     <b>Danh mục</b>
+                    <b>Giới tính</b>
+                    <b>Số lượng</b>
                     <b>Giá</b>
                     <b>Hành động</b>
                 </div>
-                {list.map((item, index) => (
+                {filteredList.map((item, index) => (
                     <div key={index} className='list-table-format' onClick={() => editFood(item._id)}>
-                        <img src={`${url}/images/` + item.image} alt={item.name} />
+                        <img src={`${url}/images/${item.image}`} alt={item.name} />
                         <p>{item.name}</p>
                         <p>{item.category}</p>
+                        <p>{item.gender || 'N/A'}</p>
+                        <p>{item.quantity || 0}</p>
                         <p>{item.price}{currency}</p>
                         <p
                             className='cursor'
                             onClick={(e) => {
                                 e.stopPropagation();
-                                openDeleteModal(item._id); // Mở popup xác nhận xóa
+                                openDeleteModal(item._id);
                             }}
                         >
                             x
@@ -119,7 +203,6 @@ const List = () => {
                 ))}
             </div>
 
-            {/* Popup xác nhận xóa */}
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeDeleteModal}

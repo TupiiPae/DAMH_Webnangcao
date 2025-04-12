@@ -180,13 +180,13 @@ const Edit = () => {
                     </div>
                     <div className="edit-price flex-col">
                         <p>Giá thú cưng</p>
-                        <input onChange={onChangeHandler} value={data.price} type="number" name='price' placeholder='Nhập giá' required />
+                        <input onChange={onChangeHandler} value={data.price} type="number" min="0" name='price' placeholder='Nhập giá' required />
                     </div>
                 </div>
                 <div className="edit-age-gender">
                     <div className="edit-age flex-col">
                         <p>Tuổi (tháng)</p>
-                        <input onChange={onChangeHandler} value={data.age} type="number" name='age' placeholder='Nhập tuổi' required />
+                        <input onChange={onChangeHandler} value={data.age} type="number" min="0" name='age' placeholder='Nhập tuổi' required />
                     </div>
                     <div className="edit-gender flex-col">
                         <p>Giới tính</p>
@@ -198,7 +198,7 @@ const Edit = () => {
                 </div>
                 <div className="edit-quantity flex-col">
                     <p>Số lượng</p>
-                    <input onChange={onChangeHandler} value={data.quantity} type="number" name='quantity' placeholder='Nhập số lượng' required />
+                    <input onChange={onChangeHandler} value={data.quantity} type="number" min="0" name='quantity' placeholder='Nhập số lượng' required />
                 </div>
                 <div className="edit-buttons">
                     <button type='submit' className='edit-btn'>Cập nhật</button>
