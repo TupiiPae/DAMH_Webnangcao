@@ -119,7 +119,6 @@ const MyOrders = () => {
 
                         {/* Bên dưới: Số tiền và thông tin giao dịch */}
                         <div className="order-popup-bottom">
-                            <h4>Thông tin giao dịch:</h4>
                             <p><b>Tổng tiền:</b> {selectedOrder.amount ? `${selectedOrder.amount}${currency}` : "Không có thông tin"}</p>
                             <p><b>Phương thức thanh toán:</b> Thanh toán khi nhận hàng (COD)</p>
                             <p><b>Trạng thái:</b> {selectedOrder.status || "Không có thông tin"}</p>
