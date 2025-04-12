@@ -53,7 +53,7 @@ const MyOrders = () => {
 
     return (
         <div className='my-orders'>
-            <h2>Đơn hàng của tôi</h2>
+            <p>Đơn hàng của tôi</p>
             <div className="container">
                 {data.map((order, index) => (
                     <div key={index} className='my-orders-order'>

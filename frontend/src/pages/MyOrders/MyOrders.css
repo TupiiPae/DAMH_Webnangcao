@@ -1,5 +1,7 @@
 .my-orders {
     margin: 50px 0px;
+    font-size: 25px;
+    font-weight: 600px;
 }
 
 .my-orders .container {

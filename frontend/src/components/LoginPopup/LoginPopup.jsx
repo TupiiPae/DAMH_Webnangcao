@@ -69,7 +69,7 @@ const LoginPopup = ({ setShowLogin }) => {
             <div className={`container ${currState === 'Sign Up' ? 'active' : ''}`} ref={popupRef}>
                 <div className="form-container sign-up">
                     <form onSubmit={onLogin}>
-                        <h1>Create Account</h1>
+                        <h1>Đăng ký</h1>
                         <div className="social-icons">
                             <a href="#" className="icon">
                                 <FontAwesomeIcon icon={faGooglePlusG} />
@@ -84,7 +84,7 @@ const LoginPopup = ({ setShowLogin }) => {
                                 <FontAwesomeIcon icon={faLinkedinIn} />
                             </a>
                         </div>
-                        <span>or use your email for registration</span>
+                        <span>hoặc sử dụng email để đăng ký</span>
                         <input
                             name="name"
                             onChange={onChangeHandler}
@@ -116,14 +116,14 @@ const LoginPopup = ({ setShowLogin }) => {
                                 checked={showPassword}
                                 onChange={() => setShowPassword(!showPassword)}
                             />
-                            <label htmlFor="show-password-signup">Show Password</label>
+                            <label htmlFor="show-password-signup">Hiển thị mật khẩu</label>
                         </div>
-                        <button type="submit">Sign Up</button>
+                        <button type="submit">Đăng ký</button>
                     </form>
                 </div>
                 <div className="form-container sign-in">
                     <form onSubmit={onLogin}>
-                        <h1>Sign In</h1>
+                        <h1>Đăng nhập</h1>
                         <div className="social-icons">
                             <a href="#" className="icon">
                                 <FontAwesomeIcon icon={faGooglePlusG} />
@@ -138,7 +138,7 @@ const LoginPopup = ({ setShowLogin }) => {
                                 <FontAwesomeIcon icon={faLinkedinIn} />
                             </a>
                         </div>
-                        <span>or use your email password</span>
+                        <span>hoặc sử dụng mật khẩu email</span>
                         <input
                             name="email"
                             onChange={onChangeHandler}
@@ -162,34 +162,34 @@ const LoginPopup = ({ setShowLogin }) => {
                                 checked={showPassword}
                                 onChange={() => setShowPassword(!showPassword)}
                             />
-                            <label htmlFor="show-password-signin">Show Password</label>
+                            <label htmlFor="show-password-signin">Hiển thị mật khẩu</label>
                         </div>
-                        <a href="#">Forget Your Password?</a>
-                        <button type="submit">Sign In</button>
+                        <a href="#" style={{ color: 'tomato' }}>Quên mật khẩu?</a>
+                        <button type="submit">Đăng nhập</button>
                     </form>
                 </div>
                 <div className="toggle-container">
                     <div className="toggle">
                         <div className="toggle-panel toggle-left">
-                            <h1>Welcome Back!</h1>
-                            <p>Enter your personal details to use all of site features</p>
+                            <h1>Chào mừng trở lại!</h1>
+                            <p>Nhập thông tin cá nhân của bạn để sử dụng tất cả các tính năng của trang web</p>
                             <button
                                 className="hidden"
                                 onClick={() => setCurrState('Login')}
                                 type="button"
                             >
-                                Sign In
+                                Đăng nhập
                             </button>
                         </div>
                         <div className="toggle-panel toggle-right">
-                            <h1>Hello, Friend!</h1>
-                            <p>Register with your personal details to use all of site features</p>
+                            <h1>Chào bạn!</h1>
+                            <p>Đăng ký thông tin cá nhân của bạn để sử dụng tất cả các tính năng của trang web</p>
                             <button
                                 className="hidden"
                                 onClick={() => setCurrState('Sign Up')}
                                 type="button"
                             >
-                                Sign Up
+                                Đăng ký
                             </button>
                         </div>
                     </div>

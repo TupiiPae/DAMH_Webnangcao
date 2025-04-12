@@ -51,8 +51,8 @@ const Order = () => {
 
     return (
         <div className='order add'>
-            <h3>Danh sách đơn hàng</h3>
             <div className="order-list">
+            <p>Danh sách đơn hàng</p>
                 {orders.map((order, index) => (
                     <div key={index} className='order-item'>
                         <img src={assets.parcel_icon} alt="Parcel Icon" />
