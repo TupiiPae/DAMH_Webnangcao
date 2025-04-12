@@ -100,20 +100,20 @@
 }
 
 .add-btn {
-    max-width: 120px;
+    width: max(10vw,150px);
     border: none;
-    padding: 12px 20px; /* Tăng padding cho nút rộng rãi hơn */
-    background-color: #333; /* Đổi sang màu xám đậm thay vì đen tuyền */
+    padding: 12px 10px; /* Tăng padding cho nút rộng rãi hơn */
+    background-color: #60DB60; /* Đổi sang màu xám đậm thay vì đen tuyền */
     color: white;
     font-size: 16px;
-    font-weight: bold; /* Chữ đậm hơn */
-    border-radius: 6px; /* Bo góc nút */
+    border-radius: 5px; /* Bo góc nút */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    margin-bottom: 10px;
 }
 
 .add-btn:hover {
-    background-color: #555; /* Sáng hơn khi hover */
+    background-color: #99CC99; /* Sáng hơn khi hover */
     transform: translateY(-2px); /* Nâng nhẹ nút khi hover */
 }
 
