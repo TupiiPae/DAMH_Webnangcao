@@ -1,52 +1,66 @@
-import userModel from "../models/userModel.js"
+import userModel from "../models/userModel.js";
 
-// add to user cart  
+// Add to user cart
 const addToCart = async (req, res) => {
    try {
-      let userData = await userModel.findOne({_id:req.body.userId});
-      let cartData = await userData.cartData;
-      if (!cartData[req.body.itemId]) {
-         cartData[req.body.itemId] = 1;
+      const userData = await userModel.findById(req.body.userId);
+
+      if (!userData) {
+         return res.status(404).json({ success: false, message: "Người dùng không tồn tại" });
       }
-      else {
-         cartData[req.body.itemId] += 1;
-      }
-      await userModel.findByIdAndUpdate(req.body.userId, {cartData});
+
+      const cartData = userData.cartData || {};
+
+      const itemId = req.body.itemId;
+      cartData[itemId] = (cartData[itemId] || 0) + 1;
+
+      await userModel.findByIdAndUpdate(req.body.userId, { cartData });
       res.json({ success: true, message: "Thêm vào giỏ hàng" });
    } catch (error) {
-      console.log(error);
-      res.json({ success: false, message: "Error" })
+      console.error("Lỗi addToCart:", error);
+      res.status(500).json({ success: false, message: "Lỗi server" });
    }
-}
+};
 
-// remove food from user cart
+// Remove from cart
 const removeFromCart = async (req, res) => {
    try {
-      let userData = await userModel.findById(req.body.userId);
-      let cartData = await userData.cartData;
-      if (cartData[req.body.itemId] > 0) {
-         cartData[req.body.itemId] -= 1;
+      const userData = await userModel.findById(req.body.userId);
+
+      if (!userData) {
+         return res.status(404).json({ success: false, message: "Người dùng không tồn tại" });
       }
-      await userModel.findByIdAndUpdate(req.body.userId, {cartData});
+
+      const cartData = userData.cartData || {};
+
+      const itemId = req.body.itemId;
+      if (cartData[itemId] > 0) {
+         cartData[itemId] -= 1;
+      }
+
+      await userModel.findByIdAndUpdate(req.body.userId, { cartData });
       res.json({ success: true, message: "Xóa khỏi giỏ hàng" });
    } catch (error) {
-      console.log(error);
-      res.json({ success: false, message: "Error" })
+      console.error("Lỗi removeFromCart:", error);
+      res.status(500).json({ success: false, message: "Lỗi server" });
    }
+};
 
-}
-
-// get user cart
+// Get user cart
 const getCart = async (req, res) => {
    try {
-      let userData = await userModel.findById(req.body.userId);
-      let cartData = await userData.cartData;
-      res.json({ success: true, cartData:cartData });
+      const userData = await userModel.findById(req.body.userId);
+
+      if (!userData) {
+         return res.status(404).json({ success: false, message: "Người dùng không tồn tại" });
+      }
+
+      const cartData = userData.cartData || {};
+      res.json({ success: true, cartData });
    } catch (error) {
-      console.log(error);
-      res.json({ success: false, message: "Error" })
+      console.error("Lỗi getCart:", error);
+      res.status(500).json({ success: false, message: "Lỗi server" });
    }
-}
+};
 
-
-export { addToCart, removeFromCart, getCart }
+export { addToCart, removeFromCart, getCart };

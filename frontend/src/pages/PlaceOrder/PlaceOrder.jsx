@@ -91,8 +91,8 @@ const PlaceOrder = () => {
                 <input type="email" name='email' onChange={onChangeHandler} value={data.email} placeholder='Email' required />
                 <input type="text" name='address' onChange={onChangeHandler} value={data.address} placeholder='Địa Chỉ' required />
                 <div className="multi-field">
-                    <input type="text" name='ward' onChange={onChangeHandler} value={data.ward} placeholder='Phường' required />
-                    <input type="text" name='district' onChange={onChangeHandler} value={data.district} placeholder='Quận' required />
+                    <input type="text" name='ward' onChange={onChangeHandler} value={data.ward} placeholder='Phường'  />
+                    <input type="text" name='district' onChange={onChangeHandler} value={data.district} placeholder='Quận' />
                 </div>
                 <div className="multi-field">
                     <input type="text" name='city' onChange={onChangeHandler} value={data.city} placeholder='Thành Phố' required />
