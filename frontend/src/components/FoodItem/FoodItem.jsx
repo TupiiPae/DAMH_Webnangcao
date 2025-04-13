@@ -68,7 +68,7 @@ const FoodItem = ({ image, name, price, desc, id, gender, quantity }) => {
                 <p className="food-item-gender">Giới tính: {gender}</p>
                 <div className="food-item-footer">
                     <p className="food-item-price">{price}{currency}</p>
-                    <p className="food-item-quantity">Số lượng: {quantity}</p>
+                    <p className="food-item-quantity">Còn lại: {quantity}</p>
                 </div>
             </div>
         </div>

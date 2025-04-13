@@ -95,7 +95,7 @@ const Order = () => {
                     <div className="modal-header">
                         <button className="modal-close-btn" onClick={closeDetailsModal}>✖</button>
                         <div className="modal-header-content">
-                            <h2>Chi Tiết Hóa Đơn</h2>
+                            <h2>Chi Tiết Đơn Hàng</h2>
                             <div className="modal-order-info">
                                 <p>Ngày mua: {formatDate(selectedOrder.date)}</p>
                                 <p>Trạng thái: {selectedOrder.status || "Không xác định"}</p>

@@ -54,7 +54,7 @@ const FoodDetail = () => {
                     </div>
                     <div className="food-detail-box food-detail-quantity">
                         <FaBox className="detail-icon" />
-                        <span>Số lượng: {foodItem.quantity}</span>
+                        <span>Còn lại: {foodItem.quantity}</span>
                     </div>
                 </div>
                 <div className="food-detail-actions">

@@ -3,6 +3,10 @@ import './MyOrders.css';
 import axios from 'axios';
 import { StoreContext } from '../../Context/StoreContext';
 import { assets } from '../../assets/assets';
+import Modal from 'react-modal';
+
+// Gắn Modal vào app element (cần thiết cho react-modal)
+Modal.setAppElement('#root');
 
 const MyOrders = () => {
     const [data, setData] = useState([]);
@@ -20,14 +24,6 @@ const MyOrders = () => {
         }
     }, [token]);
 
-    const showOrderDetails = (order) => {
-        setSelectedOrder(order);
-    };
-
-    const closePopup = () => {
-        setSelectedOrder(null);
-    };
-
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString('vi-VN', {
             day: '2-digit',
@@ -36,15 +32,12 @@ const MyOrders = () => {
         });
     };
 
-    // Hàm kiểm tra và hiển thị địa chỉ
     const formatAddress = (address) => {
         if (!address) return "Không có thông tin địa chỉ";
         const { address: street, ward, district, city, zipcode } = address;
-        const addressParts = [street, ward, district, city, zipcode].filter(part => part);
-        return addressParts.length > 0 ? addressParts.join(', ') : "Không có thông tin địa chỉ";
+        return `${street || ""}, ${city || ""}, P.${ward || ""}, Q.${district || ""}, ${zipcode || ""}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
     };
 
-    // Hàm lấy tên đầy đủ
     const getFullName = (address) => {
         if (!address) return "Không có thông tin";
         const { firstName, lastName } = address;
@@ -68,65 +61,76 @@ const MyOrders = () => {
                         <p>{order.amount}{currency}</p>
                         <p>COD</p>
                         <p><span>●</span> <b>{order.status}</b></p>
-                        <button onClick={() => showOrderDetails(order)}>Theo dõi đơn hàng</button>
+                        <button onClick={() => setSelectedOrder(order)}>Theo dõi đơn hàng</button>
                     </div>
                 ))}
             </div>
 
-            {/* Popup hiển thị chi tiết đơn hàng */}
+            {/* Popup chi tiết đơn hàng */}
             {selectedOrder && (
-                <div className="order-popup">
-                    <div className="order-popup-content">
-                        <h3>Chi tiết đơn hàng</h3>
-                        <div className="order-popup-main">
-                            {/* Bên trái: Thông tin sản phẩm */}
-                            <div className="order-popup-left">
-                                <h4>Sản phẩm:</h4>
-                                <ul>
-                                    {selectedOrder.items && selectedOrder.items.length > 0 ? (
-                                        selectedOrder.items.map((item, idx) => (
-                                            <li key={idx} className="order-item">
-                                                <div className="order-item-details">
-                                                    <span>{item.name || "Không có tên"}</span>
-                                                    <span> - Số lượng: {item.quantity || 0}</span>
-                                                    <span> - Giá: {item.price ? `${item.price}${currency}` : "Không có giá"}</span>
-                                                </div>
-                                                {item.image && (
-                                                    <img
-                                                        src={`${url}/images/${item.image}`}
-                                                        alt={item.name || "Sản phẩm"}
-                                                        className="order-item-image"
-                                                    />
-                                                )}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li>Không có sản phẩm</li>
-                                    )}
-                                </ul>
-                            </div>
-
-                            {/* Bên phải: Thời gian và thông tin giao hàng */}
-                            <div className="order-popup-right">
-                                <h4>Thông tin giao hàng:</h4>
-                                <p><b>Ngày đặt hàng:</b> {selectedOrder.date ? formatDate(selectedOrder.date) : "Không có thông tin"}</p>
-                                <p><b>Tên người nhận:</b> {getFullName(selectedOrder.address)}</p>
-                                <p><b>Email:</b> {selectedOrder.address?.email || "Không có thông tin"}</p>
-                                <p><b>Địa chỉ:</b> {formatAddress(selectedOrder.address)}</p>
-                                <p><b>Điện thoại:</b> {selectedOrder.address?.phone || "Không có thông tin"}</p>
+                <Modal
+                    isOpen={!!selectedOrder}
+                    onRequestClose={() => setSelectedOrder(null)}
+                    className="order-details-modal"
+                    overlayClassName="order-details-modal-overlay"
+                    contentLabel="Chi tiết đơn hàng"
+                >
+                    <div className="modal-header">
+                        <button className="modal-close-btn" onClick={() => setSelectedOrder(null)}>✖</button>
+                        <div className="modal-header-content">
+                            <h2>Chi Tiết Đơn Hàng</h2>
+                            <div className="modal-order-info">
+                                <p>Ngày mua: {selectedOrder.date ? formatDate(selectedOrder.date) : "Không có thông tin"}</p>
+                                <p>Trạng thái: {selectedOrder.status || "Không xác định"}</p>
                             </div>
                         </div>
-
-                        {/* Bên dưới: Số tiền và thông tin giao dịch */}
-                        <div className="order-popup-bottom">
-                            <p><b>Tổng tiền:</b> {selectedOrder.amount ? `${selectedOrder.amount}${currency}` : "Không có thông tin"}</p>
-                            <p><b>Phương thức thanh toán:</b> Thanh toán khi nhận hàng (COD)</p>
-                            <p><b>Trạng thái:</b> {selectedOrder.status || "Không có thông tin"}</p>
-                        </div>
-
-                        <button className="close-popup-btn" onClick={closePopup}>Đóng</button>
                     </div>
-                </div>
+                    <div className="modal-customer-info">
+                        <p><b>Tên khách hàng:</b> {getFullName(selectedOrder.address)}</p>
+                        <p><b>Địa chỉ:</b> {formatAddress(selectedOrder.address)}</p>
+                        <p><b>Điện thoại:</b> {selectedOrder.address?.phone || "Không có thông tin"}</p>
+                        <p><b>Quốc gia:</b> Việt Nam</p>
+                    </div>
+                    <div className="modal-payment-info">
+                        <p><b>Hình thức thanh toán:</b> COD</p>
+                        <p><b>Phí giao hàng:</b> 30,000 VND</p>
+                    </div>
+                    <div className="modal-products">
+                        <table className="modal-products-table">
+                            <thead>
+                                <tr>
+                                    <th>Thú cưng</th>
+                                    <th>Danh mục</th>
+                                    <th>Giới tính</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {selectedOrder.items?.length > 0 ? (
+                                    selectedOrder.items.map((item, idx) => (
+                                        <tr key={idx}>
+                                            <td>{item.name || "Không có tên"}</td>
+                                            <td>{item.category || "Không xác định"}</td>
+                                            <td>{item.gender || "Không xác định"}</td>
+                                            <td>{item.quantity || 0}</td>
+                                            <td>{currency}{item.price || 0}</td>
+                                            <td>{currency}{(item.price * item.quantity) || 0}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6">Không có sản phẩm</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                        <div className="modal-total">
+                            <p><b>Tổng cộng:</b> {currency}{selectedOrder.amount || 0}</p>
+                        </div>
+                    </div>
+                </Modal>
             )}
         </div>
     );

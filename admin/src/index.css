@@ -1,31 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-*{
+
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: Open sans-serif;
+  scroll-behavior: smooth;
 }
-body{
+
+html, body {
   min-height: 100vh;
+  overflow-x: hidden;
   background-color: #FCFCFC;
 }
-a{
+
+/* Tùy chỉnh thanh scroll dọc toàn trang */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+a {
   text-decoration: none;
   color: inherit;
 }
-hr{
+
+hr {
   border: none;
   height: 1px;
   background-color: #A9A9A9;
 }
-.app-content{
+
+.app-content {
   display: flex;
+  flex-wrap: wrap; /* để tránh tràn nếu thiếu responsive */
 }
-.flex-col{
+
+.flex-col {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.cursor{
+
+.cursor {
   cursor: pointer;
 }

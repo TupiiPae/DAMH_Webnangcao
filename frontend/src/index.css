@@ -8,8 +8,10 @@
   scroll-behavior: smooth;
 }
 
-body {
+html, body {
   min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #fff;
 }
 
 a {
@@ -26,7 +28,6 @@ a {
   0% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
@@ -36,4 +37,22 @@ a {
   .app {
     width: 90%;
   }
+}
+
+/* Tuỳ chỉnh thanh cuộn */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
 }
