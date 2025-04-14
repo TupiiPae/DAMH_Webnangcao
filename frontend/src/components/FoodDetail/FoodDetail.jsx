@@ -4,7 +4,7 @@ import './FoodDetail.css';
 import { StoreContext } from '../../Context/StoreContext';
 import { assets } from '../../assets/assets';
 import { toast } from 'react-toastify';
-import { FaClock, FaVenusMars, FaBox } from 'react-icons/fa'; // Import icon từ react-icons
+import { FaClock, FaVenusMars, FaBox } from 'react-icons/fa';
 
 const FoodDetail = () => {
     const { id } = useParams();
@@ -25,6 +25,10 @@ const FoodDetail = () => {
     };
 
     const handleAddToCart = () => {
+        if (foodItem.quantity === 0) {
+            toast.error("Hết hàng!");
+            return;
+        }
         if (cartItems[id] >= foodItem.quantity) {
             toast.error("Đã đạt số lượng tối đa trong kho!");
             return;
@@ -58,7 +62,9 @@ const FoodDetail = () => {
                     </div>
                 </div>
                 <div className="food-detail-actions">
-                    {!cartItems[id] ? (
+                    {foodItem.quantity === 0 ? (
+                        <p className='out-of-stock'>Hết hàng</p>
+                    ) : !cartItems[id] ? (
                         <img
                             className="add-to-cart-btn"
                             onClick={handleAddToCart}

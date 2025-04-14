@@ -6,9 +6,9 @@ const foodSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     image: { type: String, required: true },
     category: { type: String, required: true },
-    age: { type: Number, required: true }, // Tuổi (tính bằng tháng)
-    gender: { type: String, required: true }, // Giới tính
-    quantity: { type: Number, required: true } // Số lượng
+    age: { type: Number, required: true },
+    gender: { type: String, required: true },
+    quantity: { type: Number, required: true }
 });
 
 const foodModel = mongoose.models.food || mongoose.model("food", foodSchema);

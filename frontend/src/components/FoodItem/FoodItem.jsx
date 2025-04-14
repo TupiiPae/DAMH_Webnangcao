@@ -15,6 +15,10 @@ const FoodItem = ({ image, name, price, desc, id, gender, quantity }) => {
 
     const handleAddToCart = (e) => {
         handleStopPropagation(e);
+        if (quantity === 0) {
+            toast.error("Hết hàng!");
+            return;
+        }
         if (cartItems[id] >= quantity) {
             toast.error("Đã đạt số lượng tối đa trong kho!");
             return;
@@ -23,8 +27,8 @@ const FoodItem = ({ image, name, price, desc, id, gender, quantity }) => {
     };
 
     const handleImageClick = (e) => {
-        e.stopPropagation(); // Ngăn sự kiện lan truyền lên div cha
-        navigate(`/food/${id}`); // Chuyển hướng đến trang chi tiết
+        e.stopPropagation();
+        navigate(`/food/${id}`);
     };
 
     return (
@@ -35,9 +39,11 @@ const FoodItem = ({ image, name, price, desc, id, gender, quantity }) => {
                     src={url + "/images/" + image}
                     alt={name}
                     style={{ cursor: 'pointer' }}
-                    onClick={handleImageClick} // Thêm sự kiện click vào hình ảnh
+                    onClick={handleImageClick}
                 />
-                {!cartItems[id] ? (
+                {quantity === 0 ? (
+                    <p className='out-of-stock'>Hết hàng</p>
+                ) : !cartItems[id] ? (
                     <img
                         className='add'
                         onClick={handleAddToCart}

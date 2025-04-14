@@ -1,5 +1,5 @@
 import express from 'express';
-import { addFood, listFood, removeFood, getFoodById, updateFood } from '../controllers/foodController.js';
+import { addFood, listFood, removeFood, getFoodById, updateFood, updateQuantity } from '../controllers/foodController.js';
 import multer from 'multer';
 
 const foodRouter = express.Router();
@@ -20,5 +20,6 @@ foodRouter.get("/:id", getFoodById); // Lấy thông tin sản phẩm theo ID
 foodRouter.post("/add", upload.single('image'), addFood); // Thêm sản phẩm mới
 foodRouter.post("/update", upload.single('image'), updateFood); // Cập nhật sản phẩm
 foodRouter.post("/remove", removeFood); // Xóa sản phẩm
+foodRouter.post("/update-quantity", updateQuantity);
 
 export default foodRouter;

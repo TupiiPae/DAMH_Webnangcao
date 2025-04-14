@@ -90,7 +90,7 @@ const LoginPopup = ({ setShowLogin }) => {
                             onChange={onChangeHandler}
                             value={data.name}
                             type="text"
-                            placeholder="Name"
+                            placeholder="Tên"
                             required
                         />
                         <input
@@ -106,7 +106,7 @@ const LoginPopup = ({ setShowLogin }) => {
                             onChange={onChangeHandler}
                             value={data.password}
                             type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
+                            placeholder="Mật khẩu"
                             required
                         />
                         <div className="show-password">
@@ -152,7 +152,7 @@ const LoginPopup = ({ setShowLogin }) => {
                             onChange={onChangeHandler}
                             value={data.password}
                             type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
+                            placeholder="Mật khẩu"
                             required
                         />
                         <div className="show-password">

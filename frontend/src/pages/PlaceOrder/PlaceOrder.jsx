@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
-import './PlaceOrder.css'
-import { StoreContext } from '../../Context/StoreContext'
+import React, { useContext, useEffect, useState } from 'react';
+import './PlaceOrder.css';
+import { StoreContext } from '../../Context/StoreContext';
 import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const PlaceOrder = () => {
-
-    const [payment, setPayment] = useState("cod")
+    const [payment, setPayment] = useState("cod");
     const [data, setData] = useState({
         firstName: "",
         lastName: "",
@@ -19,66 +18,67 @@ const PlaceOrder = () => {
         city: "",
         zipcode: "",
         phone: ""
-    })
+    });
 
-    const { getTotalCartAmount, token, food_list, cartItems, url, setCartItems,currency,deliveryCharge } = useContext(StoreContext);
-
+    const { getTotalCartAmount, token, food_list, cartItems, url, setCartItems, currency, deliveryCharge } = useContext(StoreContext);
     const navigate = useNavigate();
 
     const onChangeHandler = (event) => {
-        const name = event.target.name
-        const value = event.target.value
-        setData(data => ({ ...data, [name]: value }))
-    }
+        const name = event.target.name;
+        const value = event.target.value;
+        setData(data => ({ ...data, [name]: value }));
+    };
 
     const placeOrder = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         let orderItems = [];
-        food_list.map(((item) => {
+        food_list.forEach((item) => {
             if (cartItems[item._id] > 0) {
-                let itemInfo = item;
-                itemInfo["quantity"] = cartItems[item._id];
-                orderItems.push(itemInfo)
+                let itemInfo = { ...item };
+                itemInfo.quantity = cartItems[item._id];
+                orderItems.push(itemInfo);
             }
-        }))
+        });
+
         let orderData = {
             address: data,
             items: orderItems,
             amount: getTotalCartAmount() + deliveryCharge,
-        }
-        if (payment === "stripe") {
-            let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
-            if (response.data.success) {
-                const { session_url } = response.data;
-                window.location.replace(session_url);
-            }
-            else {
-                toast.error("Something Went Wrong")
-            }
-        }
-        else{
-            let response = await axios.post(url + "/api/order/placecod", orderData, { headers: { token } });
-            if (response.data.success) {
-                navigate("/myorders")
-                toast.success(response.data.message)
-                setCartItems({});
-            }
-            else {
-                toast.error("Something Went Wrong")
-            }
-        }
+        };
 
-    }
+        try {
+            let response;
+            if (payment === "stripe") {
+                response = await axios.post(`${url}/api/order/place`, orderData, { headers: { token } });
+                if (response.data.success) {
+                    const { session_url } = response.data;
+                    window.location.replace(session_url);
+                } else {
+                    toast.error(response.data.message || "Lỗi khi đặt hàng");
+                }
+            } else {
+                response = await axios.post(`${url}/api/order/placecod`, orderData, { headers: { token } });
+                if (response.data.success) {
+                    navigate("/myorders");
+                    toast.success(response.data.message);
+                    setCartItems({});
+                } else {
+                    toast.error(response.data.message || "Lỗi khi đặt hàng");
+                }
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Lỗi khi đặt hàng");
+        }
+    };
 
     useEffect(() => {
         if (!token) {
-            toast.error("to place an order sign in first")
-            navigate('/cart')
+            toast.error("Vui lòng đăng nhập để đặt hàng");
+            navigate('/cart');
+        } else if (getTotalCartAmount() === 0) {
+            navigate('/cart');
         }
-        else if (getTotalCartAmount() === 0) {
-            navigate('/cart')
-        }
-    }, [token])
+    }, [token, navigate, getTotalCartAmount]);
 
     return (
         <form onSubmit={placeOrder} className='place-order'>
@@ -91,7 +91,7 @@ const PlaceOrder = () => {
                 <input type="email" name='email' onChange={onChangeHandler} value={data.email} placeholder='Email' required />
                 <input type="text" name='address' onChange={onChangeHandler} value={data.address} placeholder='Địa Chỉ' required />
                 <div className="multi-field">
-                    <input type="text" name='ward' onChange={onChangeHandler} value={data.ward} placeholder='Phường'  />
+                    <input type="text" name='ward' onChange={onChangeHandler} value={data.ward} placeholder='Phường' />
                     <input type="text" name='district' onChange={onChangeHandler} value={data.district} placeholder='Quận' />
                 </div>
                 <div className="multi-field">
@@ -122,10 +122,10 @@ const PlaceOrder = () => {
                         <p>BANK ( Thanh toán trực tuyến )</p>
                     </div>
                 </div>
-                <button className='place-order-submit' type='submit'>{payment==="cod"?"Place Order":"Proceed To Payment"}</button>
+                <button className='place-order-submit' type='submit'>{payment === "cod" ? "Đặt hàng" : "Tiến hành thanh toán"}</button>
             </div>
         </form>
-    )
-}
+    );
+};
 
-export default PlaceOrder
+export default PlaceOrder;

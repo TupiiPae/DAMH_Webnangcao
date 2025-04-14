@@ -8,7 +8,6 @@ const Cart = () => {
     const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount, url, currency, deliveryCharge, deleteFromCart } = useContext(StoreContext);
     const navigate = useNavigate();
 
-    // Hàm xử lý tăng số lượng với kiểm tra giới hạn
     const handleAddToCart = (itemId, maxQuantity) => {
         if (cartItems[itemId] >= maxQuantity) {
             toast.error("Đã đạt số lượng tối đa trong kho!");
@@ -37,6 +36,7 @@ const Cart = () => {
                                         <button
                                             onClick={() => handleAddToCart(item._id, item.quantity)}
                                             className="plus"
+                                            disabled={item.quantity === 0}
                                         >
                                             +
                                         </button>

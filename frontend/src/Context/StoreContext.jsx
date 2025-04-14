@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { food_list as foodListStatic, menu_list } from "../assets/assets";
+import { menu_list } from "../assets/assets";
 import axios from "axios";
 
 export const StoreContext = createContext(null);
@@ -13,14 +13,21 @@ const StoreContextProvider = (props) => {
   const deliveryCharge = 3;
 
   const addToCart = async (itemId) => {
+    const item = food_list.find((product) => product._id === itemId);
+    if (!item) return;
+
+    if ((cartItems[itemId] || 0) >= item.quantity) {
+      return; // Không thêm nếu vượt số lượng
+    }
+
     setCartItems((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 0) + 1 // Sửa dòng này
+      [itemId]: (prev[itemId] || 0) + 1
     }));
 
     if (token) {
       await axios.post(`${url}/api/cart/add`, { itemId }, {
-        headers: { token } // Sửa dòng này
+        headers: { token }
       });
     }
   };
@@ -28,12 +35,12 @@ const StoreContextProvider = (props) => {
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 1) - 1 // Sửa dòng này
+      [itemId]: (prev[itemId] || 1) - 1
     }));
 
     if (token) {
       await axios.post(`${url}/api/cart/remove`, { itemId }, {
-        headers: { token } // Sửa dòng này
+        headers: { token }
       });
     }
   };
@@ -46,7 +53,7 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       await axios.post(`${url}/api/cart/delete`, { itemId }, {
-        headers: { token } // Sửa dòng này
+        headers: { token }
       });
     }
   };
@@ -54,15 +61,11 @@ const StoreContextProvider = (props) => {
   const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
-      try {
-        if (cartItems[item] > 0) {
-          const itemInfo = food_list.find((product) => product._id === item); // Sửa dòng này
-          if (itemInfo) { // Sửa dòng này
-            totalAmount += itemInfo.price * cartItems[item];
-          }
+      if (cartItems[item] > 0) {
+        const itemInfo = food_list.find((product) => product._id === item);
+        if (itemInfo) {
+          totalAmount += itemInfo.price * cartItems[item];
         }
-      } catch (error) {
-        console.error("Error calculating cart amount", error); // Sửa dòng này
       }
     }
     return totalAmount;
@@ -70,31 +73,31 @@ const StoreContextProvider = (props) => {
 
   const fetchFoodList = async () => {
     try {
-      const response = await axios.get(`${url}/api/food/list`); // Sửa dòng này
-      setFoodList(response.data.data || []); // Sửa dòng này
+      const response = await axios.get(`${url}/api/food/list`);
+      setFoodList(response.data.data || []);
     } catch (error) {
-      console.error("Failed to fetch food list", error); // Sửa dòng này
+      console.error("Failed to fetch food list", error);
     }
   };
 
   const loadCartData = async (token) => {
     try {
       const response = await axios.post(`${url}/api/cart/get`, {}, {
-        headers: { token } // Sửa dòng này
+        headers: { token }
       });
-      setCartItems(response.data.cartData || {}); // Sửa dòng này
+      setCartItems(response.data.cartData || {});
     } catch (error) {
-      console.error("Failed to load cart data", error); // Sửa dòng này
+      console.error("Failed to load cart data", error);
     }
   };
 
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
-      const storedToken = localStorage.getItem("token"); // Sửa dòng này
+      const storedToken = localStorage.getItem("token");
       if (storedToken) {
-        setToken(storedToken); // Sửa dòng này
-        await loadCartData(storedToken); // Sửa dòng này
+        setToken(storedToken);
+        await loadCartData(storedToken);
       }
     }
     loadData();
